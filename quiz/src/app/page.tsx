@@ -1,22 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Questao from "./components/questao/Questao"
 import QuestaoModel from "./model/questao"
-import RespostaModel from "./model/resposta"
-import Botao from "./components/botao/Botao"
 import Questionario from "./components/questionario/Questionario"
 import { useRouter } from "next/navigation"
-
-const questaoMock = new QuestaoModel(1, "Qual a cor do céu?",
-  [RespostaModel.errada("Branco"),
-  RespostaModel.errada("Laranja"),
-  RespostaModel.errada("Azul"),
-  RespostaModel.certa("Incolor")])
-
-const BASE_URL = "http://localhost:3000/api"
+import { env } from "process"
 
 export default function Home() {
+  const URL = process.env.NEXT_PUBLIC_BASE_URL
+  console.log("URL: ", URL)
 
   const router = useRouter()
   const [idsDasQuestoes, setIdsDasQuestoes] = useState([])
@@ -24,13 +16,13 @@ export default function Home() {
   const [respostasCertas, setRespostasCertas] = useState<number>(0)
 
   async function carregarIdsQuestoes() {
-    const resp = await fetch(`${BASE_URL}/questionario`)
+    const resp = await fetch(`${URL}/questionario`)
     const idsDasQuestoes = await resp.json()
     setIdsDasQuestoes(idsDasQuestoes)
   }
 
   async function carregarQuestao(id: number) {
-    const resp = await fetch(`${BASE_URL}/questoes/${id}`)
+    const resp = await fetch(`${URL}/questoes/${id}`)
     const json = await resp.json()
     const novaQuestao = QuestaoModel.fromObject(json)
     setQuestao(novaQuestao)
