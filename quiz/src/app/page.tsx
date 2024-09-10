@@ -85,7 +85,7 @@ export default function Home() {
       certas: "" + respostasCertas
     }).toString()
 
-    router.push(`/pages/resultado?${queryParams}`)
+    router.push(`/resultado?${queryParams}`)
   }
 
   return questao ?
