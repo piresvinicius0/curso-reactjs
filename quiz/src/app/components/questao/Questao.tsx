@@ -18,6 +18,7 @@ const letras = [{
 
 interface QuestaoProps {
     valor: QuestaoModel
+    tempoPraResposta?: number
     respostaFornecida: (indice: number) => void
     tempoEsgotado: () => void;
 }
@@ -27,9 +28,8 @@ export default function Questao(props: QuestaoProps) {
 
     function renderizarRespostas() {
         return questao.respostas.map((resposta, index) => {
-
             return <Resposta
-                key={index}
+                key={`${questao.id}${index}`}
                 valor={resposta.toObject()}
                 indice={index}
                 letra={letras[index].valor}
@@ -41,7 +41,8 @@ export default function Questao(props: QuestaoProps) {
     return (
         <div className={style.questao}>
             <Enunciado texto={questao.enunciado} />
-            <Temporizador duracao={10} tempoEsgotado={props.tempoEsgotado}/>
+            <Temporizador key={questao.id}
+            duracao={props.tempoPraResposta ?? 10} tempoEsgotado={props.tempoEsgotado}/>
             {renderizarRespostas()}
         </div>
     )
